@@ -11,12 +11,12 @@ const activitySchema = new mongoose.Schema({
 
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'User', // Enables to use .populate('user') to get full user details
         required: true
     },
 
     action: {
-        type: string,
+        type: String,
         required: true,
         enum: ['CREATE_TASK', 'UPDATE_TASK', 'DELETE_TASK', 'MOVE_TASK', 'ADD_MEMBER', 'REMOVE_MEMBER']
     },
@@ -24,7 +24,7 @@ const activitySchema = new mongoose.Schema({
     details: {
         taskTitle: String,
         fromList: String,
-        toList: string
+        toList: String
     }
 }, {timestamps: true})
 

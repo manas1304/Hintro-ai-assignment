@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const boardSchema = new mongoose.Schema({
     
     title: {
-        type: string,
+        type: String,
         required: [true, 'Board title is required'],
         trim: true
     },

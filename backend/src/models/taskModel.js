@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 const taskSchema = new mongoose.Schema({
 
     title: {
-        type: string,
+        type: String,
         required: [true, 'Task title is required'],
         trim: true
     },
 
     description: {
-        type: string,
+        type: String,
         trim: true,
         default: ""
     },

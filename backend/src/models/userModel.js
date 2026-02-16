@@ -4,13 +4,13 @@ import bcrypt from 'bcrypt';
 const userSchema = new mongoose.Schema({
 
     name:{
-        type: string,
+        type: String,
         required: [true, 'Name is required'],
-        trim: true // Removes whitespace from end and beginning of the string before saving
+        trim: true // Removes whitespace from end and beginning of the String before saving
     },
 
     email:{
-        type: string,
+        type: String,
         required: [true, 'Email is required'],
         unique: true,
         lowercase: true,
@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
 
     password: {
-        type: string,
+        type: String,
         required: [true, 'Password is required'],
         minlength:6,
         select: false // Hides passwords from API respones by default
@@ -26,16 +26,20 @@ const userSchema = new mongoose.Schema({
 }, {timestamps: true})
 
 // Hashing password before saving it to the database
-userSchema.pre('save', async function (next){
+userSchema.pre('save', async function (){
+    console.log("Pre save hook triggered")
     if(!this.isModified('password')) return next(); // If the password has not been modified( in update operation ) then directly move to the next operation
 
-    const salt = await bcrypt.genSalt(10);
-    this.password = bcrypt.hash(this.password) // Plain text gets replaced with hash 
-    next();
+    try{
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt) // Plain text gets replaced with hash 
+    }catch(err){
+        throw err
+    }
 })
 
 // Method to verify password during login
-userSchema.methods.matchPasswords = async function (enteredPassword){
+userSchema.methods.matchPassword = async function (enteredPassword){
     return await bcrypt.compare(enteredPassword, this.password);
 }
 

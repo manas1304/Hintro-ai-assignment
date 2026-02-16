@@ -5,24 +5,27 @@ export async function protect(req, res, next){
     
     let token;
 
-    if(req.header.authorization && req.headers.authorization.startswith('Bearer')){
+    // Got some type errors here
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
         try{
             
-            token = req.header.authorization.split('')[1]; // Getting the token because it looks like (Bearer <token>);
+            token = req.headers.authorization.split(' ')[1]; // Getting the token because it looks like (Bearer <token>);
             
             // Decode the token to get userId
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+            // Putting req.user so that we can use this later
             req.user = await User.findById(decoded.id);
+            console.log(decoded);
             
-            next(); // Move to the next function
+            return next(); // Move to the next function
 
         }catch(err){
-            res.status(401).json({ message: 'Not authorized, token failed' });
+            return res.status(401).json({ message: 'Not authorized, token failed' });
         }
     }
 
     if(!token){
-        res.status(401).json({ message: 'Not authorized, no token' });
+        return res.status(401).json({ message: 'Not authorized, no token' });
     }
 }
