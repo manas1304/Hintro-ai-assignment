@@ -18,7 +18,7 @@ const activitySchema = new mongoose.Schema({
     action: {
         type: String,
         required: true,
-        enum: ['CREATE_TASK', 'UPDATE_TASK', 'DELETE_TASK', 'MOVE_TASK', 'ADD_MEMBER', 'REMOVE_MEMBER']
+        enum: ['CREATE_TASK', 'UPDATE_TASK', 'DELETE_TASK', 'MOVE_TASK', 'ASSIGN_TASK', 'ADD_MEMBER', 'REMOVE_MEMBER']
     },
 
     details: {

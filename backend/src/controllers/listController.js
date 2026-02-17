@@ -26,7 +26,7 @@ export async function getListsByBoard(req, res){
 
     try{
 
-        const lists = await List.find({boardId: req.params.boardId}).sort('position');
+        const lists = await List.find({boardId: req.query.boardId}).sort('position');
         res.json(lists);
     }catch(err){
         res.status(500).json({message: err.message})

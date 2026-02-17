@@ -5,6 +5,6 @@ import {protect} from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 router.post('/', protect, createList);
-router.get('/:boardId', protect, getListsByBoard);
+router.get('/', protect, getListsByBoard);
 
 export default router;
